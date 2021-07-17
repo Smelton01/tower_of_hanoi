@@ -1,30 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { useStopwatch } from "react-timer-hook";
 import Button from "@material-ui/core/Button";
-import { Grid, Paper } from "@material-ui/core";
+import { Grid, Paper} from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 export default function Timer(props) {
-  useEffect(() => {
-    if (props.end) {
-      stop();
-      console.log("Game End: ", props.timeState);
-    }
-  }, [props.gameEnd]);
-
-  const { seconds, minutes, hours, days, isRunning, start, pause, reset } =
-    useStopwatch({ autostart: false });
-
-  const stop = () => {
-    props.getTime(() => {
-      let timeState = { ...props.timeState };
-      props.timeState["time"] = { min: minutes, sec: seconds, hr: hours };
-      return timeState;
-    });
-    // console.log(props.timeState);
-    reset();
-    pause();
-  };
 
   const useStyles = makeStyles((theme) => ({
     root: {
@@ -41,31 +20,67 @@ export default function Timer(props) {
 
   const header = {
     padding: 10,
-    textAlign: "center",
+    margin: "auto",
   };
+    // const {end} = props
+    const [time, setTime] = useState(0);
+    const [isActive, setIsActive] = useState(false);
+  
+    function toggle() {
+      // start - pause
+      setIsActive(!isActive);
+      props.setRunning(!props.running)
+    
+    }
+  
+    function reset() {
+      props.getTime(time)
+      setTime(0);
+      setIsActive(false);
+      props.setRunning(false)
 
+    }
+  
+    useEffect(() => {
+      let interval = null;
+      if (isActive) {
+        interval = setInterval(() => {
+          setTime(seconds => seconds + 1);
+        }, 10);
+      } else if (!isActive && time !== 0) {
+        clearInterval(interval);
+      }
+      return () => clearInterval(interval);
+    }, [isActive, time]);
+
+const timerStyle = {
+  background: "#68f",
+  color: "white",
+  fontWeight: "bold"
+
+}
   return (
     <div style={header}>
-      <Grid item xs={4}>
-        <Paper className={classes.paper}>
-          <span className="header__group-one">{minutes}</span>:
-          <span className="header__group-two">{seconds}</span>
+      <Grid item xs={4} style={header}>
+        <Paper className={classes.paper} style={timerStyle}>
+          <span >{(Math.floor(time/6000)+"").padStart(2,"0")}</span>:
+          <span >{(Math.floor((time%6000)/100)+"").padStart(2,"0")}</span>:
+          <span >{(time%100+"").padStart(2,"0")}</span>
+          {/* <span className="header__group-two">{seconds}</span> */}
         </Paper>{" "}
       </Grid>
-      <p>{isRunning ? "running" : "stopped here"}</p>
       <Button
         variant="contained"
         color="primary"
-        onClick={isRunning ? () => {} : start}
+        onClick={toggle}
       >
-        start
+        Start
       </Button>
-      <Button variant="contained" color="secondary" onClick={pause}>
-        pause
+      <span> | </span>
+      <Button variant="contained" color="secondary" onClick={reset}>
+        Stop
       </Button>
-      <Button variant="contained" color="red" onClick={() => stop()}>
-        stop
-      </Button>
+      
     </div>
   );
 }

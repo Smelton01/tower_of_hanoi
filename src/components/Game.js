@@ -4,18 +4,38 @@ import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 
+const level = {
+  3:[4,8,12],
+  4:[3,6,9,12],
+  5:[1,3,6,9,12],
+  6: [2,4,6,8,10,12],
+  8:[4,5,6,7,8,9,10,12],
+  10: [3,4,5,6,7,8,9,10,11,12],
+  12: [1,2,3,4,5,6,7,8,9,10,11,12]
+}
+
 export default function Game(props) {
-  const [state, setState] = useState({ 0: [], 1: [], 2: [10, 14, 18] });
+  const [state, setState] = useState({ 0: level[props.difficulty], 1: [], 2: [] });
   const [dragging, setDragging] = useState(false);
   const [current, setCurrent] = useState(null);
+  const [running, setRunning] = useState(true);
+  const {difficulty} = props
+
+  useEffect(() =>{
+    if(!props.running){
+    setState({ 0: level[props.difficulty], 1: [], 2: [] })
+    }
+  },[difficulty])
+
 
   useEffect(() => {
-    if (state[0].length === 0 || state[1].length === 1) {
-      props.gameEnd(!props.end);
+    if (running && (state[2].length === 3 || state[1].length === 3)) {
+      props.setEnd(!props.end);
+      setRunning(false)
     }
   }, [props, state]);
 
-  const init = { ...state };
+  // const init = { ...state };
 
   const useStyles = makeStyles((theme) => ({
     root: {
@@ -25,6 +45,8 @@ export default function Game(props) {
       padding: theme.spacing(2),
       textAlign: "center",
       color: theme.palette.text.secondary,
+      margin: "auto",
+      maxHeight: 500
     },
   }));
 
@@ -49,40 +71,45 @@ export default function Game(props) {
       }
       setDragging(!dragging);
       setCurrent(null);
+      // if (!props.end){
+      //   console.log("HERE")
+      // }
     }
   };
 
+  const gridStyle = {
+    minHeight:400,
+    margin: "auto"
+  }
+
+  const innerGridStyle ={
+    minHeight: "100%",
+    background: "#5D6D7E"
+    // margin: "auto"
+  }
+  
+
   return (
     <div className={classes.root}>
-      <Grid container spacing={3}>
-        <Grid item xs={4}>
-          <Paper className={classes.paper} onClick={() => handleClick(0)}>
+      <Grid container spacing={3} style={gridStyle}>
+        <Grid item xs={4} >
+          <Paper className={classes.paper} onClick={() => handleClick(0)} style={innerGridStyle}>
             <Pole discs={state[0]} pole={0} current={current === 0} />
           </Paper>
         </Grid>
-        <Grid item xs={4}>
-          <Paper className={classes.paper} onClick={() => handleClick(1)}>
+        <Grid item xs={4} >
+          <Paper className={classes.paper} onClick={() => handleClick(1)} style={innerGridStyle}>
             <Pole discs={state[1]} pole={1} current={current === 1} />
           </Paper>
         </Grid>
-        <Grid item xs={4}>
-          <Paper className={classes.paper} onClick={() => handleClick(2)}>
+        <Grid item xs={4} >
+          <Paper className={classes.paper} onClick={() => handleClick(2)} style={innerGridStyle}>
             <Pole discs={state[2]} pole={2} current={current === 2} />
           </Paper>
         </Grid>
       </Grid>
-      <button onClick={() => setState(init)}>Reset</button>
+     
     </div>
 
-    // <div>
-    //   {/* {Object.keys(state).map((s) => game(state[s]))} */}
-    //   <span>
-    //     <Pole discs={state[2]} />
-    //   </span>
-    //   <span>
-    //     <Pole discs={state[3]} />
-    //   </span>
-    //   {/* <Pole discs={state[3]} /> */}
-    // </div>
   );
 }

@@ -3,16 +3,22 @@ import Disc from "./Disc";
 
 export default function Pole(props) {
   // props is of disc sizes
+
+  const gridStyle = {
+    flex: 1,
+  }
   const disc = (length, index) => {
     return (
-      <p>
+      <div style={gridStyle}>
         <Disc
           length={length}
           pole={props.pole}
           index={index}
           current={props.current}
+          style={gridStyle}
         />
-      </p>
+        <p></p>
+      </div>
     );
   };
 
