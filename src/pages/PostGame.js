@@ -3,9 +3,28 @@
 import React, {useState, useEffect} from 'react'
 import { Grid, Paper } from '@material-ui/core'
 import { makeStyles } from "@material-ui/core/styles";
+import axios from 'axios';
 
-export default function Home() {
+export default function Home(props) {
     const [state, setState] = useState("init")
+
+    const postData = () =>{
+        const {name, time, date} = props.user
+        
+        fetch('http://localhost:5000/api', {
+            method: 'post',
+            headers: {'Content-Type':'application/json'},
+            body: {
+                name: name,
+                time: time,
+                date: date
+            }}).then((response) => {
+            console.log(response);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+    }
 
     useEffect(() => {
         fetch("/api")
@@ -35,7 +54,8 @@ export default function Home() {
         <Grid item xs={8} >
           <Paper className={classes.paper} >
             <p>Home Page</p> ==================
-            {state}
+            {props.user.name}
+            <button onClick={() => postData()}>Post</button>
           </Paper>
         </Grid>
         </Grid>

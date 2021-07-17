@@ -9,7 +9,7 @@ function App() {
       {/* <Timer /> */}
       <>
       <MainGame />
-      <PostGame />
+      {/* <PostGame /> */}
         </>
     </div>
   );

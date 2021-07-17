@@ -12,12 +12,15 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 
+import PostGame from "./PostGame"
+
 export default function MainGame() {
   const [end, setEnd] = useState(false);
   const [time, setTime] = useState(0);
   const [change, setChange] = useState("")
   const [difficulty, setDifficulty] = useState(3)
   const [running, setRunning] = useState(false)
+  const [user, setUser] = useState({name:"Anon", time: 0, date: Date.now()})
 
   useEffect(() => {
     console.log("Ending")
@@ -50,6 +53,7 @@ export default function MainGame() {
       name: change,
       time: time
     }
+    setUser({name:change, time:time, date: Date.now()})
     console.log(user)
   }
   const handleChange = (e) => {
@@ -97,7 +101,7 @@ export default function MainGame() {
       </form> 
      
       </span>
-     
+    {/* <PostGame user={user}/> */}
   
     </div>
   );
