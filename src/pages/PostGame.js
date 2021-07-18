@@ -3,6 +3,7 @@
 import React, {useState, useEffect} from 'react'
 import { Grid, Paper } from '@material-ui/core'
 import { makeStyles } from "@material-ui/core/styles";
+import dateFormat from 'dateformat';
 
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -36,7 +37,8 @@ export default function Home(props) {
     const getData = () => {
         fetch('http://localhost:5000/api?')
         .then((res) => res.json())
-        .then((data) => setHighScores(data))
+        .then((data) => {
+            setHighScores(data.sort((a,b) => a.time - b.time ))})
     }
 
     const useStyles = makeStyles((theme) => ({
@@ -56,19 +58,24 @@ export default function Home(props) {
 
       const List = (item) => {
           console.log(item.name)
-        return <li style={listStyle}>{item.name} : {item.time || 1} : {item.date || "1999"} </li>
+          console.log(item.time)
+        return <li style={listStyle}>{item.name} || {Math.floor(item.time/100)+"." + item.time%100+" s"} || {dateFormat(item.date, "mmmm dS, yyyy, h:MM:ss TT")}</li>
       }
       const listStyle = {
           background: "#eee",
           padding: "5px"
       }
+
+      const gridStyle = {
+        minHeight:400,
+        margin: "auto"
+      }
     return (
-        <div>
-        <Grid container spacing={3} >
-        <Grid item xs={8} >
+        <div style={gridStyle}>
+        <Grid container spacing={3} style={gridStyle}>
+        <Grid item xs={8} style={gridStyle}>
           <Paper className={classes.paper} >
-            <p>High Scores</p> ==================
-            {props.user.name}
+            <p>Leaderboard</p> ================================= <br></br>
             <button onClick={() => postData()}>Post</button>
             <button onClick={() => getData()}>Get</button>
           <ol >
