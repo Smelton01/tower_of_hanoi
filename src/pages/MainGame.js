@@ -12,6 +12,8 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 
+import {Link} from "react-router-dom"
+
 import PostGame from "./PostGame"
 
 export default function MainGame() {
@@ -21,6 +23,7 @@ export default function MainGame() {
   const [difficulty, setDifficulty] = useState(3)
   const [running, setRunning] = useState(false)
   const [user, setUser] = useState({name:"Anon", time: 0, date: Date.now()})
+  const [game, setGame] = useState(true)
 
   useEffect(() => {
     console.log("Ending")
@@ -54,7 +57,8 @@ export default function MainGame() {
       time: time
     }
     setUser({name:change, time:time, date: Date.now()})
-    console.log(user)
+    // console.log(user)
+    setGame(false)
   }
   const handleChange = (e) => {
     setChange(e.target.value)
@@ -67,6 +71,17 @@ export default function MainGame() {
     setDifficulty(e.target.value)
   }
 
+  const newGame = () => {
+    console.log("starting new game")
+    setDifficulty(3)
+    setGame(true)
+
+  }
+
+  const gridStyle = {
+    minHeight:400,
+    margin: "auto"
+  }
   return (
     <div>
       <Timer getTime={setTime} timeState={time} end={end} setRunning={setRunning} running={running}/>
@@ -89,20 +104,22 @@ export default function MainGame() {
         </Select>
         <FormHelperText>Select the number of discs</FormHelperText>
       </FormControl>
-
-      <Game setEnd={setEnd} end={end} difficulty={difficulty} running={running}/>
+      {game? <Game setEnd={setEnd} end={end} difficulty={difficulty} running={running}/> : <PostGame style={gridStyle}user={user}/>}
+      
       {/* <button onClick={() => console.log(state)}>testing</button> */}
       <p></p>
       <span style={formStyle}> 
       <p>Your time: {time}</p>
       <form id="username" onSubmit={submitTime}> 
       <TextField  label="Username" variant="outlined" onChange={handleChange}/> 
-      <Button type="submit" form="username">Submit</Button>
+      {/* <Button type="submit" form="username"> Submit</Button> */}
+      {game? <Button type="submit" form="username"> Submit</Button>: <Button onClick={newGame}> New Game</Button>}
       </form> 
      
       </span>
-    {/* <PostGame user={user}/> */}
+    {/*  */}
   
     </div>
   );
 }
+// 18.189.27.137

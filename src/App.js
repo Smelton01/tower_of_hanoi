@@ -1,7 +1,12 @@
 import "./App.css";
-import Timer from "./components/Timer";
 import MainGame from "./pages/MainGame";
 import PostGame from "./pages/PostGame"
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
 
 function App() {
   return (
@@ -10,8 +15,20 @@ function App() {
       <>
       <MainGame />
       {/* <PostGame /> */}
-        </>
+        </>{/* <Router>
+<Switch>
+  <Route path="/">
+    <MainGame />
+  </Route>
+  <Route path="/endgame">
+    <PostGame />
+  </Route>
+</Switch>
+
+</Router> */}
     </div>
+
+
   );
 }
 
