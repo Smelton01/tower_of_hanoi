@@ -3,16 +3,12 @@ import Game from "../components/Game";
 import Timer from "../components/Timer";
 import TextField from '@material-ui/core/TextField';
 import Button from "@material-ui/core/Button";
-
-
 import { makeStyles } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-
-import {Link} from "react-router-dom"
 
 import PostGame from "./PostGame"
 
@@ -57,7 +53,6 @@ export default function MainGame() {
       time: time
     }
     setUser({name:change, time:time, date: Date.now()})
-    // console.log(user)
     setGame(false)
   }
   const handleChange = (e) => {
@@ -104,7 +99,7 @@ export default function MainGame() {
         </Select>
         <FormHelperText>Select the number of discs</FormHelperText>
       </FormControl>
-      {game? <Game setEnd={setEnd} end={end} difficulty={difficulty} running={running}/> : <PostGame style={gridStyle}user={user}/>}
+      {game? <Game setEnd={setEnd} end={end} difficulty={difficulty} running={running}/> : <PostGame  user={user}/>}
       
       {/* <button onClick={() => console.log(state)}>testing</button> */}
       <p></p>
@@ -115,11 +110,7 @@ export default function MainGame() {
       {/* <Button type="submit" form="username"> Submit</Button> */}
       {game? <Button type="submit" form="username"> Submit</Button>: <Button onClick={newGame}> New Game</Button>}
       </form> 
-     
       </span>
-    {/*  */}
-  
     </div>
   );
 }
-// 18.189.27.137

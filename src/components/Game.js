@@ -91,25 +91,32 @@ export default function Game(props) {
 
   return (
     <div className={classes.root}>
-      <Grid container spacing={3} style={gridStyle}>
-        <Grid item xs={4} >
+      <Grid container spacing={5} style={gridStyle}>
+      <Grid item xs={1} >
+      </Grid>
+        <Grid item xs={3} >
           <Paper className={classes.paper} onClick={() => handleClick(0)} style={innerGridStyle}>
             <Pole discs={state[0]} pole={0} current={current === 0} />
           </Paper>
         </Grid>
-        <Grid item xs={4} >
+        <Grid item xs={0.5} >
+      </Grid>
+        <Grid item xs={3} >
           <Paper className={classes.paper} onClick={() => handleClick(1)} style={innerGridStyle}>
             <Pole discs={state[1]} pole={1} current={current === 1} />
           </Paper>
         </Grid>
-        <Grid item xs={4} >
+        <Grid item xs={0.5} >
+      </Grid>
+        <Grid item xs={3} >
           <Paper className={classes.paper} onClick={() => handleClick(2)} style={innerGridStyle}>
             <Pole discs={state[2]} pole={2} current={current === 2} />
           </Paper>
         </Grid>
+        <Grid item xs={1} >
+      </Grid>
       </Grid>
      
     </div>
-
   );
 }

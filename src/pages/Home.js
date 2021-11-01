@@ -1,6 +1,5 @@
-// TODO select difficulty / input name / view high scores
 import React from 'react'
-import { Grid, Paper } from '@material-ui/core'
+import { Grid, Paper, makeStyles } from '@material-ui/core'
 
 export default function Home() {
 
