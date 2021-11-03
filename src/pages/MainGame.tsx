@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, FormEvent } from "react";
 import Game from "../components/Game";
 import Timer from "../components/Timer";
 import TextField from '@material-ui/core/TextField';
@@ -41,12 +41,12 @@ export default function MainGame() {
   }));
   const classes = useStyles();
 
-  const formStyle={
+  const formStyle:any = {
     position: "absolute",
     bottom: 20
   }
 
-  const submitTime = (e) => {
+  const submitTime = (e:any) => {
     e.preventDefault()
     const user = {
       name: change,
@@ -55,14 +55,14 @@ export default function MainGame() {
     setUser({name:change, time:time, date: Date.now()})
     setGame(false)
   }
-  const handleChange = (e) => {
+  const handleChange = (e:any) => {
     setChange(e.target.value)
   }
   useEffect(()=>{
   console.log(difficulty)
   },[difficulty])
 
-  const changeDifficulty = (e) => {
+  const changeDifficulty = (e:any) => {
     setDifficulty(e.target.value)
   }
 
